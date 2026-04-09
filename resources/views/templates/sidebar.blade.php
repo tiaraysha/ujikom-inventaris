@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Inventaris</title>
 
+    <link href="https://wiggly-library-a46.notion.site/Inventaris-3338bd43354980e5af8af6e7d6139b9d">
     <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
     <script src="{{  asset('/assets/js/bootstrap.bundle.min.js') }}"></script>
 </head>
