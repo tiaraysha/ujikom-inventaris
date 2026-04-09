@@ -45,35 +45,6 @@
 
         <div class="w-100 vh-100 overflow-auto bg-light">
             
-            <nav class="navbar navbar-dark p-4 shadow-sm" style="background-image: url('{{ asset('/assets/images/wikrama.jpg') }}'); background-size: cover; background-position: center; min-height: 200px;">
-                <div class="container-fluid align-items-start text-white">
-                    <div class="d-flex align-items-center">
-                        <i class="bi bi-list fs-3 me-3"></i>
-                        <img src="/assets/images/logo wk.webp" width="40" height="40" class="me-2 rounded-circle border border-2 border-warning">
-                        <h5 class="mb-0 fw-bold">Welcome Back,  Wikrama</h5>
-                    </div>
-                    <div class="fw-bold">
-                        14 January, 2023
-                    </div>
-                </div>
-            </nav>
-
-            <div class="container-fluid mt-n5 px-4" style="margin-top: -30px;">
-                <div class="card border-0 shadow-sm p-4">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <span>Check menu in sidebar</span>
-                        
-                        <div class="dropdown">
-                            <a href="#" class="d-flex align-items-center text-decoration-none text-dark dropdown-toggle" data-bs-toggle="dropdown">
-                                <i class="bi bi-person-circle fs-3 me-2"></i>
-                                <span>role Wikrama</span>
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-end shadow border-0">
-                                <li><a class="dropdown-item" href="#"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
                 
                 <div class="py-4">
                     @yield('content')
