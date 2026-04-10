@@ -8,7 +8,6 @@
 
     <link href="https://wiggly-library-a46.notion.site/Inventaris-3338bd43354980e5af8af6e7d6139b9d">
     <link rel="stylesheet" href="/assets/Bootstrap/css/mdb.min.css">
-    <script src="{{  asset('/assets/Bootstrap/js/mdb.umd.min.js') }}"></script>
 </head>
 <body>
    <div class="d-flex overflow-hidden">
@@ -24,17 +23,17 @@
                 
                 <small class="text-white-50 fw-bold ps-2 mt-4 mb-2 text-uppercase" style="font-size: 10px;">Items Data</small>
                 <li class="mb-1">
-                    <a href="{{route('category')}}" class="nav-link text-white opacity-75">
+                    <a href="{{route('admin.category')}}" class="nav-link text-white opacity-75">
                         <i class="bi bi-list-ul me-2"></i> Categories
                     </a>
                 </li>
                 <li class="mb-1">
-                    <a href="{{route('items')}}" class="nav-link text-white opacity-75">
+                    <a href="{{route('admin.items')}}" class="nav-link text-white opacity-75">
                         <i class="bi bi-pie-chart me-2"></i> Items
                     </a>
                 </li>
                 <li class="mb-1">
-                    <a href="{{route('lendings')}}" class="nav-link text-white opacity-75">
+                    <a href="{{route('staff.lendings')}}" class="nav-link text-white opacity-75">
                         <i class="bi bi-pie-chart me-2"></i> Lendings
                     </a>
                 </li>
@@ -50,10 +49,15 @@
         </div>
 
         <div class="w-100 vh-100 overflow-auto bg-light">
+            <div class="d-flex justify-content-between m-5">
+                <div>
+                 <h4>Welcome back, {{Auth::user()->role}} Wikrama</h4>
+                </div>
+                <div>
+                    <h4>{{now()->format('d-m-Y')}}</h4>
+                </div>
+            </div>
 
-            
-            
-                
                 <div class="py-4">
                     @yield('content')
                 </div>
@@ -62,5 +66,6 @@
 
     </div>
 
+<script src="{{  asset('/assets/Bootstrap/js/mdb.umd.min.js.map') }}"></script>
 </body>
 </html>

@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Item;
 use Illuminate\Http\Request;
 use App\Models\Category;
+use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\ItemExport;
 
 class ItemController extends Controller
 {
@@ -14,9 +17,16 @@ class ItemController extends Controller
     public function index()
     {
         $categories = Category::all();
-
+        
         $items = Item::with('category')->get();
-        return view ('admin.item', compact('categories', 'items'));
+        // return view('admin.item', compact('categories', 'items'));
+        
+        if(Auth::user()->role == 'Admin') {
+            return view('admin.item', compact('items', 'categories'))->with('success', 'Data berhasil ditambahkan!');
+        } else {
+            return view('staff.item', compact('items', 'categories'))->with('success', 'Data berhasil ditambahkan!');
+        }
+
     }
 
     /**
@@ -38,16 +48,20 @@ class ItemController extends Controller
             'total' => 'required',
         ]);
 
-        $lending = 0;
+        $total = $request->total;
         $repair = 0;
-        $available = $request->total - ($lending + $repair);
+        $lending = 0;
+
+        $available = $total - ($repair + $lending);
 
         Item::create([
             'name' => $validatedData['name'],
             'category_id' => $validatedData['category_id'],
             'total' => $validatedData['total'],
             'lending_total' => 0,
-            'available' => $available
+            'available' => $available,
+            'repair' => 0,
+            'lending' => 0,
         ]);
 
         return redirect()->route('items')->with('success', 'Berhasil menambah data item');
@@ -75,33 +89,26 @@ class ItemController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $item = Item::findOrFail($id);
+
         $updatedData = $request->validate([
             'name' => 'required',
             'category_id' => 'required',
             'total' => 'required',
+            'brokeItem' => 'nullable|min:0'
         ]);
 
-        if($updatedData) {
-            return redirect()->route('items')->with('success', 'Berhasil merubah data kategori');
-        } else {
-            return redirect()->route('items')->with('error', 'Berhasil merubah data kategori');
-        }
+        $newRepairTotal = $item->repair + ($request->brokeItem ?? 0);
 
-        $repair = 0;
-        $brokeItem = ($request->brokeItem ?? 0);
-        $newRepair = $repair + $brokeItem;
-        
-
-        $items = Item::findOrFail($id)([
+        $item->update([
             'name' => $updatedData['name'],
             'category_id' => $updatedData['category_id'],
             'total' => $updatedData['total'],
-            'repair' => $repair,
+            'repair' => $newRepairTotal,
+            'available' => $updatedData['total'] - ($item->lending + $newRepairTotal),
         ]);
 
-        $items->update();
-        return redirect()->route('items')->with('success', 'Berhasil merubah data kategori');
-
+        return redirect()->route('admin.items')->with('success', 'Data berhasil diubah!');
     }
 
     /**
@@ -110,5 +117,11 @@ class ItemController extends Controller
     public function destroy(Item $item)
     {
         //
+    }
+
+    public function export()
+    {
+        $filename = 'data-item.xlsx';
+        return Excel::download(new ItemExport, $filename);
     }
 }

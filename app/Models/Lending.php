@@ -14,7 +14,8 @@ class Lending extends Model
         'description',
         'date',
         'status',
-        'edited_by'
+        'edited_by',
+        'return_date'
     ];
 
     public function item()

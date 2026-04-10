@@ -13,6 +13,8 @@ class Item extends Model
         'total',
         'available',
         'lending_total',
+        'repair',
+        'lending'
     ];
 
     public function category()

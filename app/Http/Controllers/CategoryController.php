@@ -12,7 +12,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::all();
+        $categories = Category::with('item')->get();
         return view('admin.category', compact('categories'));
     }
 
@@ -63,25 +63,21 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $updatedData = $request->validate([
+        $validatedData = $request->validate([
             'name' => 'required',
             'division_pj' => 'required',
+        ]);
+
+        $updatedData = Category::where('id', $id)->update([
+            'name' => $validatedData['name'],
+            'division' => $validatedData['division_pj'],
         ]);
 
         if($updatedData) {
             return redirect()->back()->with('success', 'Berhasil merubah data kategori');
         } else {
-            return redirect()->back()->with('error', 'Berhasil merubah data kategori');
+            return redirect()->route('category')->with('error', 'Kategori gagal diupdate!');
         }
-
-        $categories = Category::findOrFail($id)->update() ([
-            'name' => $updatedData['name'],
-            'division_pj' => $updatedData['division_pj'],
-        ]);
-
-        $categories->update();
-        return redirect()->route('category')->with('success', 'Berhasil merubah data kategori');
-
     }
 
     /**

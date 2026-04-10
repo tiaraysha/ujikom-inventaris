@@ -8,7 +8,11 @@
         <p class="text-muted">Add and update item</p>
     </div>
     <div>
-        <button class="btn btn-success" type="button">Export Excel</button>
+        <form action="{{route('admin.items.export')}}" method="POST">
+            @csrf
+            @method('PUT')
+            <button type="submit" class="btn btn-success">Export Excel</button>
+        </form>
         <button type="button" class="btn btn-primary" data-mdb-ripple-init data-mdb-modal data-mdb-target="#exampleModal">+ Add</button>
     </div>
 </div>
@@ -40,7 +44,7 @@
                 </td> 
             </tr>
             {{-- edit tes --}}
-            <form action="{{route('items.update', $item['id'])}}" method="POST">
+            {{-- <form action="{{route('admin.items.update', $item['id'])}}" method="POST">
                 @csrf
                 @method('PUT')
             <div class="mb-3">
@@ -67,19 +71,20 @@
                 <label for="brokeItem" class="form-label">New Broke Item</label>
                 <input type="integer" class="form-control @error('brokeItem') is-invalid @endError" name="brokeItem" id="brokeItem" placeholder="Alat Dapur">
                 </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
+            <button type="submit" class="btn btn-primary">Edit</button>
+            </form> --}}
             @endforeach
     </tbody>
 </table>
 
-{{-- tes add --}}
-{{-- <form action="{{route('items.store')}}" method="POST">
-    @csrf
- <div class="mb-3">
+{{-- add tes --}}
+<form action="{{route('admin.category.store')}}" method="POST">
+        @csrf
+<div class="d-flex flex-column m-5">
+<div class="mb-3">
     <label for="name" class="form-label">Name</label>
     <input type="text" class="form-control @error('name') is-invalid @endError" name="name" id="name" placeholder="Alat Dapur">
-</div>
+    </div>
 
     <div class="mb-3">
     <label for="category" class="form-label">Category</label>
@@ -94,9 +99,11 @@
     <div class="mb-3">
     <label for="total" class="form-label">total</label>
     <input type="text" class="form-control @error('total') is-invalid @endError" name="total" id="total" placeholder="Alat Dapur">
+    </div>
+    
+    <button type="submit" class="btn btn-primary">Submit</button>
 </div>
-<button type="submit" class="btn btn-primary">Submit</button>
-</form> --}}
+</form>
     
 
 {{-- add modal --}}
